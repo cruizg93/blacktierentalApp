@@ -14,7 +14,7 @@ import com.cruizg93.virtualbook.repository.RoleRepository;
 import com.cruizg93.virtualbook.repository.UserRepository;;
 
 @Service("userService")
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl extends MainService implements UserService{
 
 	@Autowired
 	private UserRepository userRepository;
@@ -38,9 +38,8 @@ public class UserServiceImpl implements UserService{
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setStatus(1);
 		user.setCreatedDate(new Date());
-		if(user.getCreatedBy() == null) {
-			user.setCreatedBy(userRepository.findByUsername("system"));
-		}
+//		user.setCreatedBy(this.loggedUser);
+		
 		Role userRole = roleRepository.findByRole("ADMIN");
 		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		userRepository.save(user);
